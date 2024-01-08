@@ -5,11 +5,12 @@ public class Main {
 	public static ArrayList<User> allUsers = new ArrayList<>();
 	private static final Integer[] numLst = {2,3,4};
 	private static int currentIndex = 0;
+	private static int playerCount;
 	public static void main(String[] args) {
 		String players = String.valueOf(JOptionPane.showInputDialog(null,
 				"Choose how many players:", "Player Count", JOptionPane.QUESTION_MESSAGE,
 				null , numLst, numLst[0]));
-		int playerCount = Integer.parseInt(players);
+		playerCount = Integer.parseInt(players);
 		System.out.printf("Player count: %d\n", playerCount);
 
 		for (int i = 0; i < playerCount; i++) {
@@ -30,5 +31,8 @@ public class Main {
 		}
 
 
+	}
+	public static int getPlayerCount() {
+		return playerCount;
 	}
 }

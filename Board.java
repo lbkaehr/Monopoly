@@ -87,12 +87,14 @@ public class Board {
 					public void actionPerformed(ActionEvent e) {
 						if (e.getSource() == rollButton) {
 							boolean doubles = currentUser.roll();
+							rollButton.setVisible(false);
+							if (doubles) {
+								rollButton.setVisible(true);
+								doublesCount++;
+							}
 							currentRole = currentUser.getRoll();
 							die1.setText(String.format("Die 1: %d", currentRole[0]));
 							die2.setText(String.format("Die 2: %d", currentRole[1]));
-							if (!doubles) {
-								rollButton.setVisible(false);
-							}
 							movePiece();
 
 						}
@@ -177,6 +179,7 @@ public class Board {
 		property.setText(BoardSpace.allNames[currentUser.getLocation()]);
 
 		playerLabel.setText(currentUser.getName() + "'s Turn");
+		doublesCount = 0;
 
 	}
 
@@ -195,7 +198,7 @@ public class Board {
 		String location = BoardSpace.allNames[currentUser.getLocation()];
 		switch (location) {
 			case "Chance":
-				BoardSpace.drawChance();
+
 		}
 	}
 }
