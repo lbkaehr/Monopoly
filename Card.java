@@ -1,8 +1,10 @@
+import java.util.*;
+
 public class Card {
-	String text;  // Text on the card
-	int value;  // Value associated with the card
-	String type;  // Cash, Location, Jail
-	String operation; // "=" , "+", "-"
+	private String text;  // Text on the card
+	private int value;  // Value associated with the card
+	private String type;  // Cash, Location, Jail
+	private String operation; // "=" , "+", "-"
 	static String LOCATION = "L";
 	static String CASH = "C";
 	static String JAIL = "J";
@@ -13,11 +15,13 @@ public class Card {
 	static int NEARESTUTIL = 0; // Nearest Utility
 	static int GENREPAIR = 0; // Make General Repairs
 	static int STREETREPAIR = 0; // Assesed for street repairs
-	static int CHAIRMAN = (50 * Main.getPlayerCount());
-	static int BIRTHDAY = (10 * Main.getPlayerCount());
+	private static int CHAIRMAN = (50 * Main.getPlayerCount());
+	private static int BIRTHDAY = (10 * Main.getPlayerCount());
+	private static Stack<Card> chanceStack = new Stack<>();
+	private static Stack<Card> communityStack = new Stack<>();
 
-	static Card[] allChance = new Card[16];
-	static Card[] allCommunity = new Card[16];
+	private static Card[] allChance = new Card[16];
+	private static Card[] allCommunity = new Card[16];
 	private Card(String text, int value, String type, String operation) {
 		this.text = text;
 		this.value = value;
@@ -73,9 +77,22 @@ public class Card {
 		allCommunity[15] = new Card("You inherit $100", 100, CASH, ADD);
 	}
 
-	public static void fillCards() {
+	public static void initCards() {
 		fillChance();
 		fillCommunity();
+		Collections.addAll(chanceStack, allChance);
+		Collections.addAll(communityStack, allCommunity);
+
+		Collections.shuffle(chanceStack);
+		Collections.shuffle(communityStack);
+	}
+
+	public static Stack<Card> getChanceStack() {
+		return chanceStack;
+	}
+
+	public static Stack<Card> getCommunityStack() {
+		return communityStack;
 	}
 
 }
