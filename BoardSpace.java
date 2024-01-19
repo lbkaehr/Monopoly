@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class BoardSpace {
 	protected static String[] allNames = {
 			"GO", "Mediterranean Avenue", "Community Chest", "Baltic Avenue", "Income Tax", "Reading Railroad",
@@ -11,6 +13,18 @@ public class BoardSpace {
 	public int location;
 	public String name;
 	public int ID;
+	private static Stack<Card> chanceStack = Card.getChanceStack();
+	private static Stack<Card> communityStack = Card.getCommunityStack();
+	public static Card drawChance() {
+		Card currentCard = chanceStack.pop();
+		chanceStack.addLast(currentCard);
+		return currentCard;
+	}
 
+	public static Card drawCommunity() {
+		Card currentCard = communityStack.pop();
+		communityStack.addLast(currentCard);
+		return currentCard;
+	}
 
 }
