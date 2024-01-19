@@ -10,6 +10,9 @@ public class Main {
 		String players = String.valueOf(JOptionPane.showInputDialog(null,
 				"Choose how many players:", "Player Count", JOptionPane.QUESTION_MESSAGE,
 				null , numLst, numLst[0]));
+		if (players == null) {
+			return;
+		}
 		playerCount = Integer.parseInt(players);
 		System.out.printf("Player count: %d\n", playerCount);
 
