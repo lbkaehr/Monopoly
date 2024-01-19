@@ -198,7 +198,19 @@ public class Board {
 		String location = BoardSpace.allNames[currentUser.getLocation()];
 		switch (location) {
 			case "Chance":
-
+				Card chanceCard = BoardSpace.drawChance();
+				break;
+			case "Community Chest":
+				Card communityCard = BoardSpace.drawCommunity();
+				break;
+			case "GO":
+				currentUser.setCash(currentUser.getCash() + 200);
+				break;
+			case "Go to Jail":
+				currentUser.setLocation(40);
+				break;
+			case "Free Parking":
+				FreeParking.check();
 		}
 	}
 }
