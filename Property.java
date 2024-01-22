@@ -3,9 +3,6 @@ import java.util.ArrayList;
 public class Property extends BoardSpace {
 	private Player owner;
 	private int rent;
-	public int getID() {
-		return this.ID;
-	}
 
 	public int getLocation() {
 		return this.location;
@@ -31,11 +28,9 @@ public class Property extends BoardSpace {
 		this.rent = rent;
 	}
 
-	public Property(String name, Player owner, int ID, int location, int rent) {
-		this.name = name;
+	public Property(String name, Player owner, int location, int rent) {
+		super(name,location);
 		this.owner = owner;
-		this.ID = ID;
-		this.location = location;
 		this.rent = rent;
 	}
 

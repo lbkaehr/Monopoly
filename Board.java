@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.ArrayList;
 
 public class Board {
 	JButton rollButton;
@@ -17,14 +19,51 @@ public class Board {
 	JFrame frame;
 	User currentUser;
 	int doublesCount = 0;
+	BoardSpace currentSpace;
+	public static int UTIL = 999;
+	public static ArrayList<BoardSpace> allSpaces = new ArrayList<>();
+
+
 
 
 	public Board(User user) {
 		this.currentUser = user;
 	}
 
+	public static void initSpaces() {
+		try {
+
+			BufferedReader reader = new BufferedReader(new FileReader("BoardSpaces.csv"));
+
+			String line = "";
+			int counter = 0;
+			while ((line = reader.readLine()) != null) {
+				if (line.equals("Name,Cost,Rent,ID")) {
+					continue;
+				}
+				String[] splitline = line.split(",");
+				String name = splitline[0];
+				int cost = Integer.parseInt(splitline[1]);
+				String rent = splitline[2];
+				int ID = Integer.parseInt(splitline[3]);
+				int rentVal;
+				if (rent.equals("UTIL")) {
+					rentVal = UTIL;
+				} else {
+					rentVal = Integer.parseInt(rent);
+				}
+				allSpaces.add(new Property(name,null, counter++, rentVal));
+
+			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null,"File Not Found!", "File Error!", JOptionPane.ERROR_MESSAGE);
+		} catch (Exception ee){
+			ee.printStackTrace();
+		}
+	}
 	private void DisplayPlayer(User user) {
-		int location = user.getLocation();
+		BoardSpace location = user.getCurrentSpace();
 	}
 
 	public void displayBoard() {
@@ -176,7 +215,7 @@ public class Board {
 		die1.setText("Die 1: 0");
 		die2.setText("Die 2: 0");
 		cashLabel.setText(String.format("Cash: $%s", currentUser.getCash()));
-		property.setText(BoardSpace.allNames[currentUser.getLocation()]);
+		property.setText(currentUser.getCurrentSpace().getName());
 
 		playerLabel.setText(currentUser.getName() + "'s Turn");
 		doublesCount = 0;
@@ -184,19 +223,19 @@ public class Board {
 	}
 
 	private void movePiece() {
-		int currentLocation = currentUser.getLocation();  // 39 (boardwalk)
+		BoardSpace currentSpace = currentUser.getCurrentSpace();  // 39 (boardwalk)
 		int distance = currentRole[0] + currentRole[1];   // {4,6}
-		int newLocation = currentLocation + distance;     // 49
+		int newLocation = currentSpace.getLocation() + distance;     // 49
 		if (newLocation > 39) {  // circles back on the board  //49 > 39
 			newLocation = newLocation - 40;               // 9
 		}
-		currentUser.setLocation(newLocation);
-		property.setText(BoardSpace.allNames[newLocation]);
+		currentUser.setLocation(allSpaces.get(newLocation));
+		property.setText(currentUser.getCurrentSpace().getName());
 	}
 
 	private void doAction() {
-		String location = BoardSpace.allNames[currentUser.getLocation()];
-		switch (location) {
+		String locationName = currentUser.getCurrentSpace().getName();
+		switch (locationName) {
 			case "Chance":
 				Card chanceCard = BoardSpace.drawChance();
 				break;
@@ -207,10 +246,15 @@ public class Board {
 				currentUser.setCash(currentUser.getCash() + 200);
 				break;
 			case "Go to Jail":
-				currentUser.setLocation(40);
+				currentUser.setLocation(allSpaces.get(40));
 				break;
 			case "Free Parking":
 				FreeParking.check();
+			default:
+				int spaceStatus = currentSpace.getStatus();
+
 		}
+
+
 	}
 }

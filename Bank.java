@@ -1,8 +1,7 @@
-public class Bank extends Player{
+public class Bank extends Player {
 
 	public Bank() {
 		this.type = 0;
-
 	}
 
 

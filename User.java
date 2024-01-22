@@ -1,22 +1,22 @@
 public class User extends Player {
-	private int location;
+	private BoardSpace currentSpace;
 	private int[] roll;
 	private String name;
 	private int cash;
 
 	public User(String name) {
-		this.location = 0;
+		this.currentSpace = Board.allSpaces.get(0);
 		this.type = 1;
 		this.name = name;
 		this.cash = 1500;
 	}  // Constructor User
 
-	public int getLocation() {
-		return this.location;
+	public BoardSpace getCurrentSpace() {
+		return this.currentSpace;
 	}  // Method getLocation
 
-	public void setLocation(int location) {
-		this.location = location;
+	public void setLocation(BoardSpace location) {
+		this.currentSpace = location;
 	}  // Method setLocation
 
 	public int[] getRoll() {

@@ -3,10 +3,11 @@ import java.util.ArrayList;
 
 public class Main {
 	public static ArrayList<User> allUsers = new ArrayList<>();
-	private static final Integer[] numLst = {2,3,4};
+	private static final Integer[] numLst = {1,2,3,4};
 	private static int currentIndex = 0;
 	private static int playerCount;
 	public static void main(String[] args) {
+		Board.initSpaces();
 		String players = String.valueOf(JOptionPane.showInputDialog(null,
 				"Choose how many players:", "Player Count", JOptionPane.QUESTION_MESSAGE,
 				null , numLst, numLst[0]));
