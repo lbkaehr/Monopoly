@@ -20,7 +20,7 @@ public class Board {
 	User currentUser;
 	int doublesCount = 0;
 	BoardSpace currentSpace;
-	public static int UTIL = 999;
+	public static int UTIL = 0;
 	public static ArrayList<BoardSpace> allSpaces = new ArrayList<>();
 
 
@@ -81,9 +81,9 @@ public class Board {
 					public void paint(Graphics g) {
 						g.setColor(Color.black);
 						g.drawRect(10, 10, 150, 150);      // Top Left corner
-						g.drawRect(10, 880, 150, 150);    // Bottom Left corner
-						g.drawRect(880, 10, 150, 150);    // Top Right corner
-						g.drawRect(880, 880, 150, 150);  // Bottom Right corner
+						g.drawRect(10, 880, 150, 150);     // Bottom Left corner
+						g.drawRect(880, 10, 150, 150);     // Top Right corner
+						g.drawRect(880, 880, 150, 150);    // Bottom Right corner
 
 						// Top Row
 						int x = 160;
@@ -130,12 +130,17 @@ public class Board {
 							if (doubles) {
 								rollButton.setVisible(true);
 								doublesCount++;
+								if (doublesCount == 3) {
+									currentUser.setLocation(Board.allSpaces.getLast());
+								}
+								endTurnButton.setVisible(false);
+							} else {
+								endTurnButton.setVisible(true);
 							}
 							currentRole = currentUser.getRoll();
 							die1.setText(String.format("Die 1: %d", currentRole[0]));
 							die2.setText(String.format("Die 2: %d", currentRole[1]));
 							movePiece();
-
 						}
 						if (e.getSource() == endTurnButton) {
 							endTurn();
@@ -159,6 +164,7 @@ public class Board {
 				// endTurnButton
 				endTurnButton = new JButton();
 				endTurnButton.setText("End Turn");
+				endTurnButton.setVisible(false);
 				endTurnButton.addActionListener(actionListener);
 
 
@@ -212,6 +218,7 @@ public class Board {
 	private void endTurn() {
 		currentUser = Main.getNextUser();
 		rollButton.setVisible(true);
+		endTurnButton.setVisible(false);
 		die1.setText("Die 1: 0");
 		die2.setText("Die 2: 0");
 		cashLabel.setText(String.format("Cash: $%s", currentUser.getCash()));
@@ -223,11 +230,11 @@ public class Board {
 	}
 
 	private void movePiece() {
-		BoardSpace currentSpace = currentUser.getCurrentSpace();  // 39 (boardwalk)
-		int distance = currentRole[0] + currentRole[1];   // {4,6}
-		int newLocation = currentSpace.getLocation() + distance;     // 49
-		if (newLocation > 39) {  // circles back on the board  //49 > 39
-			newLocation = newLocation - 40;               // 9
+		BoardSpace currentSpace = currentUser.getCurrentSpace();
+		int distance = currentRole[0] + currentRole[1];
+		int newLocation = currentSpace.getLocation() + distance;
+		if (newLocation > 39) {  // circles back on the board
+			newLocation = newLocation - 40;
 		}
 		currentUser.setLocation(allSpaces.get(newLocation));
 		property.setText(currentUser.getCurrentSpace().getName());
