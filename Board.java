@@ -73,7 +73,7 @@ public class Board {
 
 
 				frame = new JFrame();
-				frame.setBounds(new Rectangle(1700, 1000));
+				frame.setBounds(new Rectangle(1700, 1100));
 				frame.setResizable(true);
 				frame.setTitle("Monopoly");
 				boardPanel = new JPanel() {
@@ -81,22 +81,22 @@ public class Board {
 					public void paint(Graphics g) {
 						g.setColor(Color.black);
 						g.drawRect(10, 10, 150, 150);      // Top Left corner
-						g.drawRect(10, 800, 150, 150);    // Bottom Left corner
-						g.drawRect(800, 10, 150, 150);    // Top Right corner
-						g.drawRect(800, 800, 150, 150);  // Bottom Right corner
+						g.drawRect(10, 880, 150, 150);    // Bottom Left corner
+						g.drawRect(880, 10, 150, 150);    // Top Right corner
+						g.drawRect(880, 880, 150, 150);  // Bottom Right corner
 
 						// Top Row
 						int x = 160;
 						int y = 10;
-						for (int i = 0; i < 8; i++) {
+						for (int i = 0; i < 9; i++) {
 							g.drawRect(x, y, 80, 150);
 							x += 80;
 						}
 
 						// Right Row
-						x = 800;
+						x = 880;
 						y = 160;
-						for (int i = 0; i < 8; i++) {
+						for (int i = 0; i < 9; i++) {
 							g.drawRect(x, y, 150, 80);
 							y += 80;
 						}
@@ -104,15 +104,15 @@ public class Board {
 						// Left Row
 						x = 10;
 						y = 160;
-						for (int i = 0; i < 8; i++) {
+						for (int i = 0; i < 9; i++) {
 							g.drawRect(x, y, 150, 80);
 							y += 80;
 						}
 
 						// Bottom Row
 						x = 160;
-						y = 800;
-						for (int i = 0; i < 8; i++) {
+						y = 880;
+						for (int i = 0; i < 9; i++) {
 							g.drawRect(x, y, 80, 150);
 							x += 80;
 						}
